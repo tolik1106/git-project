@@ -13,7 +13,7 @@ public class CarController {
         int speed = getCarSpeed();
         int maxSpeed = getCarMaxSpeed();
         if (speed < maxSpeed) {
-            setCarSpeed((int) (3.5 * seconds));
+            setCarSpeed(speed += (int)(3.5 * seconds));
         }
         if (speed > maxSpeed) {
             setCarSpeed(maxSpeed);
@@ -23,7 +23,7 @@ public class CarController {
     public void speedDown(int seconds) {
         int speed = getCarSpeed();
         if (speed > 0) {
-            setCarSpeed((int)(12 * seconds));
+            setCarSpeed(speed -= 12 * seconds);
         }
         if (speed < 0) {
             setCarSpeed(0);
