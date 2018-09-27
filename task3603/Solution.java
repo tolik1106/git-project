@@ -1,15 +1,12 @@
-package com.javarush.task.task36.task3602;
+package com.javarush.task.task36.task3603;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /* 
-Найти класс по описанию
-
 Поиск класса по описанию
+
 Замени следующие слова на нужные:
 1. ClassNameToBeReplaced - имя класса, потокобезопасный аналог ArrayList, в котором все операции изменения (mutative operations) используют новую копию основного массива.
 
@@ -24,37 +21,25 @@ import java.util.*;
 3. Программа должна вывести 4 строки: "A C B D".
 4. Программа не должна содержать слова "ClassNameToBeReplaced" и "methodNameToBeReplaced".
 */
-
 public class Solution {
-    public static void main(String[] args){
-        System.out.println(getExpectedClass());
-    }
+    public static void main(String... args) {    //it's correct line
+        CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        list.remove("B");
+        List<String> collection = Arrays.asList(new String[]{"B", "C", "D", "B"});
 
-    public static Class getExpectedClass() {
+        list.addAllAbsent(collection);
 
-        Class[] classes = Collections.class.getDeclaredClasses();
-        for (Class c: classes) {
-            Method m;
-            try {
-                m = c.getDeclaredMethod("get", int.class);
-            } catch (NoSuchMethodException e) {
-                continue;
-            }
-            if (Modifier.isPrivate(Modifier.PRIVATE) && Modifier.isStatic(Modifier.STATIC) && m != null) {
-                try {
-                    Constructor constructor = c.getDeclaredConstructor();
-                    constructor.setAccessible(true);
-                    List list = (List) constructor.newInstance();
-                    list.get(0);
-                } catch (InstantiationException e) {
-                } catch (NoSuchMethodException e) {
-                } catch (IllegalAccessException e) {
-                } catch (InvocationTargetException e) {
-                } catch (IndexOutOfBoundsException e) {
-                    return c;
-                }
-            }
+        for (String string : list) {
+            System.out.println(string);
         }
-        return null;
+        /* Expected output
+A
+C
+B
+D
+         */
     }
 }
